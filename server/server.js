@@ -12,21 +12,28 @@ const PORT = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
-app.use(morgan("dev"));
+
+if (process.env.NODE_ENV !== "production") {
+  app.use(morgan("dev"));
+}
 
 app.use("/api/auth", authRoutes);
 
 app.use(errorHandler);
 
-const startServer = async () => {
-  try {
-    await connectDB();
-    app.listen(PORT, () => {
-      console.log(`Server started at http://localhost:${PORT}`);
-    });
-  } catch (error) {
-    console.error(`Failed to start server: ${error}`);
-  }
-};
+export default app;
 
-startServer();
+if (process.env.NODE_ENV !== "test") {
+  const startServer = async () => {
+    try {
+      await connectDB();
+      app.listen(PORT, () => {
+        console.log(`Server started at http://localhost:${PORT}`);
+      });
+    } catch (error) {
+      console.error(`Failed to start server: ${error}`);
+    }
+  };
+
+  startServer();
+}
