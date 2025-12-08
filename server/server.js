@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import equipmentRoutes from './routes/equipmentRoutes.js';
+import maintenanceRoutes from './routes/maintenanceRoutes.js';
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
@@ -20,6 +21,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/equipment', equipmentRoutes);
+app.use('/api/maintenance', maintenanceRoutes);
 
 app.use(errorHandler);
 
